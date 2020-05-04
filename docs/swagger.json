@@ -1,0 +1,408 @@
+{
+    "swagger": "2.0",
+    "info": {
+        "description": "Data science competency check API.",
+        "title": "Data Science Central API",
+        "termsOfService": "http://swagger.io/terms/",
+        "contact": {
+            "name": "Alao ramon Adebisi",
+            "email": "alao.adebusy@gmail.com"
+        },
+        "license": {
+            "name": "MIT",
+            "url": "https://github.com/MartinHeinz/go-project-blueprint/blob/master/LICENSE"
+        },
+        "version": "1.0"
+    },
+    "basePath": "/api/v1",
+    "paths": {
+        "/course/CreateCourse": {
+            "post": {
+                "produces": [
+                    "application/json"
+                ],
+                "summary": "create new course",
+                "parameters": [
+                    {
+                        "description": "Create new course",
+                        "name": "user",
+                        "in": "body",
+                        "required": true,
+                        "schema": {
+                            "$ref": "#/definitions/model.Course"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "schema": {
+                            "$ref": "#/definitions/controller.Message"
+                        }
+                    }
+                }
+            }
+        },
+        "/question/CreateNewQuestion/": {
+            "post": {
+                "produces": [
+                    "application/json"
+                ],
+                "summary": "create new question",
+                "parameters": [
+                    {
+                        "description": "create new question",
+                        "name": "user",
+                        "in": "body",
+                        "required": true,
+                        "schema": {
+                            "$ref": "#/definitions/model.Question"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "schema": {
+                            "$ref": "#/definitions/utilities.ResponseManager"
+                        }
+                    }
+                }
+            }
+        },
+        "/question/FetchQuestionsByCourse/{StudentID}/{CourseName}": {
+            "get": {
+                "produces": [
+                    "application/json"
+                ],
+                "summary": "Fetch question for quis",
+                "parameters": [
+                    {
+                        "description": "Fetch question for quis",
+                        "name": "user",
+                        "in": "body",
+                        "required": true,
+                        "schema": {
+                            "$ref": "#/definitions/model.Question"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "schema": {
+                            "$ref": "#/definitions/model.QuisRequest"
+                        }
+                    }
+                }
+            }
+        },
+        "/user/CreateUser": {
+            "post": {
+                "produces": [
+                    "application/json"
+                ],
+                "summary": "creates new user",
+                "parameters": [
+                    {
+                        "description": "Create new user",
+                        "name": "user",
+                        "in": "body",
+                        "required": true,
+                        "schema": {
+                            "$ref": "#/definitions/model.Student"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "schema": {
+                            "$ref": "#/definitions/utilities.ResponseManager"
+                        }
+                    }
+                }
+            }
+        },
+        "/user/GetUserFullInfo/{EmailAddress}": {
+            "get": {
+                "produces": [
+                    "application/json"
+                ],
+                "summary": "get user full information",
+                "parameters": [
+                    {
+                        "type": "string",
+                        "description": "user emailAddress",
+                        "name": "EmailAddress",
+                        "in": "path",
+                        "required": true
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "schema": {
+                            "$ref": "#/definitions/model.Students"
+                        }
+                    }
+                }
+            }
+        },
+        "/user/UpdateUserDetail": {
+            "post": {
+                "produces": [
+                    "application/json"
+                ],
+                "summary": "update user details",
+                "parameters": [
+                    {
+                        "description": "Update user information",
+                        "name": "user",
+                        "in": "body",
+                        "required": true,
+                        "schema": {
+                            "$ref": "#/definitions/model.Student"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "schema": {
+                            "$ref": "#/definitions/controller.Message"
+                        }
+                    }
+                }
+            }
+        }
+    },
+    "definitions": {
+        "controller.Message": {
+            "type": "object",
+            "properties": {
+                "message": {
+                    "type": "string",
+                    "example": "message"
+                }
+            }
+        },
+        "model.Course": {
+            "type": "object",
+            "properties": {
+                "CourseCategory": {
+                    "type": "string"
+                },
+                "CourseName": {
+                    "type": "string"
+                },
+                "PassMark": {
+                    "type": "string"
+                },
+                "QuetionCount": {
+                    "type": "string"
+                }
+            }
+        },
+        "model.Courses": {
+            "type": "object",
+            "properties": {
+                "CourseCategory": {
+                    "type": "string"
+                },
+                "CourseCode": {
+                    "type": "string"
+                },
+                "CourseName": {
+                    "type": "string"
+                },
+                "CourseStatus": {
+                    "type": "string"
+                },
+                "DateCreated": {
+                    "type": "string"
+                },
+                "ID": {
+                    "type": "integer"
+                },
+                "PassMark": {
+                    "type": "string"
+                },
+                "QuestionCount": {
+                    "type": "string"
+                }
+            }
+        },
+        "model.Question": {
+            "type": "object",
+            "properties": {
+                "CorrectOption": {
+                    "type": "string"
+                },
+                "CourseName": {
+                    "type": "string"
+                },
+                "OptionA": {
+                    "type": "string"
+                },
+                "OptionB": {
+                    "type": "string"
+                },
+                "OptionC": {
+                    "type": "string"
+                },
+                "OptionD": {
+                    "type": "string"
+                },
+                "Question": {
+                    "type": "string"
+                },
+                "Reason": {
+                    "type": "string"
+                }
+            }
+        },
+        "model.Questions": {
+            "type": "object",
+            "properties": {
+                "CorrectOption": {
+                    "type": "string"
+                },
+                "CourseName": {
+                    "type": "string"
+                },
+                "DateCreated": {
+                    "type": "string"
+                },
+                "ID": {
+                    "type": "integer"
+                },
+                "IsAvailable": {
+                    "type": "boolean"
+                },
+                "OptionA": {
+                    "type": "string"
+                },
+                "OptionB": {
+                    "type": "string"
+                },
+                "OptionC": {
+                    "type": "string"
+                },
+                "OptionD": {
+                    "type": "string"
+                },
+                "Question": {
+                    "type": "string"
+                },
+                "Reason": {
+                    "type": "string"
+                },
+                "RecCount": {
+                    "type": "integer"
+                },
+                "Status": {
+                    "description": "Active , non-Active",
+                    "type": "string"
+                }
+            }
+        },
+        "model.QuisRequest": {
+            "type": "object",
+            "properties": {
+                "courseDetails": {
+                    "type": "object",
+                    "$ref": "#/definitions/model.Courses"
+                },
+                "myQuestion": {
+                    "type": "array",
+                    "items": {
+                        "$ref": "#/definitions/model.Questions"
+                    }
+                },
+                "studentDetails": {
+                    "type": "object",
+                    "$ref": "#/definitions/model.Students"
+                }
+            }
+        },
+        "model.Student": {
+            "type": "object",
+            "properties": {
+                "Category": {
+                    "type": "string"
+                },
+                "Email": {
+                    "type": "string"
+                },
+                "FirstName": {
+                    "type": "string"
+                },
+                "Gender": {
+                    "type": "string"
+                },
+                "LastName": {
+                    "type": "string"
+                },
+                "MiddleName": {
+                    "type": "string"
+                },
+                "Nationality": {
+                    "type": "string"
+                },
+                "UserType": {
+                    "type": "string"
+                }
+            }
+        },
+        "model.Students": {
+            "type": "object",
+            "properties": {
+                "Category": {
+                    "type": "string"
+                },
+                "DateCreated": {
+                    "type": "string"
+                },
+                "Email": {
+                    "type": "string"
+                },
+                "FirstName": {
+                    "type": "string"
+                },
+                "Gender": {
+                    "type": "string"
+                },
+                "LastName": {
+                    "type": "string"
+                },
+                "MiddleName": {
+                    "type": "string"
+                },
+                "Nationality": {
+                    "type": "string"
+                },
+                "Status": {
+                    "type": "string"
+                },
+                "UserType": {
+                    "type": "string"
+                },
+                "int": {
+                    "type": "integer"
+                }
+            }
+        },
+        "utilities.ResponseManager": {
+            "type": "object",
+            "properties": {
+                "ResponseCode": {
+                    "type": "string"
+                },
+                "ResponseDescription": {
+                    "type": "string"
+                }
+            }
+        }
+    }
+}

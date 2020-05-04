@@ -1,0 +1,265 @@
+basePath: /api/v1
+definitions:
+  controller.Message:
+    properties:
+      message:
+        example: message
+        type: string
+    type: object
+  model.Course:
+    properties:
+      CourseCategory:
+        type: string
+      CourseName:
+        type: string
+      PassMark:
+        type: string
+      QuetionCount:
+        type: string
+    type: object
+  model.Courses:
+    properties:
+      CourseCategory:
+        type: string
+      CourseCode:
+        type: string
+      CourseName:
+        type: string
+      CourseStatus:
+        type: string
+      DateCreated:
+        type: string
+      ID:
+        type: integer
+      PassMark:
+        type: string
+      QuestionCount:
+        type: string
+    type: object
+  model.Question:
+    properties:
+      CorrectOption:
+        type: string
+      CourseName:
+        type: string
+      OptionA:
+        type: string
+      OptionB:
+        type: string
+      OptionC:
+        type: string
+      OptionD:
+        type: string
+      Question:
+        type: string
+      Reason:
+        type: string
+    type: object
+  model.Questions:
+    properties:
+      CorrectOption:
+        type: string
+      CourseName:
+        type: string
+      DateCreated:
+        type: string
+      ID:
+        type: integer
+      IsAvailable:
+        type: boolean
+      OptionA:
+        type: string
+      OptionB:
+        type: string
+      OptionC:
+        type: string
+      OptionD:
+        type: string
+      Question:
+        type: string
+      Reason:
+        type: string
+      RecCount:
+        type: integer
+      Status:
+        description: Active , non-Active
+        type: string
+    type: object
+  model.QuisRequest:
+    properties:
+      courseDetails:
+        $ref: '#/definitions/model.Courses'
+        type: object
+      myQuestion:
+        items:
+          $ref: '#/definitions/model.Questions'
+        type: array
+      studentDetails:
+        $ref: '#/definitions/model.Students'
+        type: object
+    type: object
+  model.Student:
+    properties:
+      Category:
+        type: string
+      Email:
+        type: string
+      FirstName:
+        type: string
+      Gender:
+        type: string
+      LastName:
+        type: string
+      MiddleName:
+        type: string
+      Nationality:
+        type: string
+      UserType:
+        type: string
+    type: object
+  model.Students:
+    properties:
+      Category:
+        type: string
+      DateCreated:
+        type: string
+      Email:
+        type: string
+      FirstName:
+        type: string
+      Gender:
+        type: string
+      LastName:
+        type: string
+      MiddleName:
+        type: string
+      Nationality:
+        type: string
+      Status:
+        type: string
+      UserType:
+        type: string
+      int:
+        type: integer
+    type: object
+  utilities.ResponseManager:
+    properties:
+      ResponseCode:
+        type: string
+      ResponseDescription:
+        type: string
+    type: object
+info:
+  contact:
+    email: alao.adebusy@gmail.com
+    name: Alao ramon Adebisi
+  description: Data science competency check API.
+  license:
+    name: MIT
+    url: https://github.com/MartinHeinz/go-project-blueprint/blob/master/LICENSE
+  termsOfService: http://swagger.io/terms/
+  title: Data Science Central API
+  version: "1.0"
+paths:
+  /course/CreateCourse:
+    post:
+      parameters:
+      - description: Create new course
+        in: body
+        name: user
+        required: true
+        schema:
+          $ref: '#/definitions/model.Course'
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/controller.Message'
+      summary: create new course
+  /question/CreateNewQuestion/:
+    post:
+      parameters:
+      - description: create new question
+        in: body
+        name: user
+        required: true
+        schema:
+          $ref: '#/definitions/model.Question'
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/utilities.ResponseManager'
+      summary: create new question
+  /question/FetchQuestionsByCourse/{StudentID}/{CourseName}:
+    get:
+      parameters:
+      - description: Fetch question for quis
+        in: body
+        name: user
+        required: true
+        schema:
+          $ref: '#/definitions/model.Question'
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/model.QuisRequest'
+      summary: Fetch question for quis
+  /user/CreateUser:
+    post:
+      parameters:
+      - description: Create new user
+        in: body
+        name: user
+        required: true
+        schema:
+          $ref: '#/definitions/model.Student'
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/utilities.ResponseManager'
+      summary: creates new user
+  /user/GetUserFullInfo/{EmailAddress}:
+    get:
+      parameters:
+      - description: user emailAddress
+        in: path
+        name: EmailAddress
+        required: true
+        type: string
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/model.Students'
+      summary: get user full information
+  /user/UpdateUserDetail:
+    post:
+      parameters:
+      - description: Update user information
+        in: body
+        name: user
+        required: true
+        schema:
+          $ref: '#/definitions/model.Student'
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/controller.Message'
+      summary: update user details
+swagger: "2.0"
