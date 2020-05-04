@@ -9,7 +9,6 @@ import (
 
 	"github.com/Adebusy/VisitorsManager/AppCode"
 	"github.com/Adebusy/dataScienceAPI/model"
-	_ "github.com/denisenkom/go-mssqldb"
 	"github.com/joho/godotenv"
 )
 
