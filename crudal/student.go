@@ -36,7 +36,6 @@ func CreateNewUser(RequesuetOBJ model.Student) utl.ResponseManager {
 	query := fmt.Sprintf(`insert into tbl_Students (FirstName,MiddleName,LastName,Gender,Email,Nationality,Category) values ('%s','%s','%s','%s','%s','%s','%s')`, strings.ToUpper(RequesuetOBJ.FirstName), strings.ToUpper(RequesuetOBJ.MiddleName), strings.ToUpper(RequesuetOBJ.LastName), strings.ToUpper(RequesuetOBJ.Gender), strings.ToUpper(RequesuetOBJ.Email), strings.ToUpper(RequesuetOBJ.Nationality), strings.ToUpper(RequesuetOBJ.Category))
 	respFromCheck, errcheck := GetStudentByEmailAddress(strings.ToUpper(RequesuetOBJ.Email))
 	if errcheck != nil {
-		//log.Panic(errcheck.Error)
 		resp.ResponseCode = "01"
 		resp.ResponseDescription = "Unable to validate Email address at the moment. Please try again later."
 		return resp
@@ -62,7 +61,6 @@ func CreateNewUser(RequesuetOBJ model.Student) utl.ResponseManager {
 		resp.ResponseCode = "00"
 		resp.ResponseDescription = "User created successfully"
 	}
-
 	return resp
 }
 
