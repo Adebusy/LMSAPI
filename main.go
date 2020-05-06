@@ -3,10 +3,13 @@ package main
 import (
 	"database/sql"
 	"errors"
+	"fmt"
+	"log"
 	"net/http"
 
 	"github.com/Adebusy/VisitorsManager/AppCode"
 	cntr "github.com/Adebusy/dataScienceAPI/controller"
+	cr "github.com/Adebusy/dataScienceAPI/crudal"
 	"github.com/Adebusy/dataScienceAPI/docs"
 	_ "github.com/denisenkom/go-mssqldb"
 	"github.com/gin-gonic/gin"
@@ -14,15 +17,18 @@ import (
 	swaggerFiles "github.com/swaggo/files"
 	ginSwagger "github.com/swaggo/gin-swagger"
 	"github.com/swaggo/swag/example/celler/httputil"
-
-	ut "github.com/Adebusy/dataScienceAPI/utilities"
 )
 
 var db *sql.DB
 var err error
 
 func init() {
-	ut.ConnectMe()
+	db, err = cr.ConnectMe()
+	if err != nil {
+		log.Fatal(err.Error())
+	} else {
+		fmt.Println("no connection error")
+	}
 }
 
 // @title Data Science Central API
@@ -46,11 +52,12 @@ func main() {
 
 	r := gin.Default()
 	r.GET("/swagger/*any", ginSwagger.WrapHandler(swaggerFiles.Handler))
-	r.POST("/user/CreateUser/", cntr.CreateUser)                       //done
-	r.POST("/course/CreateCourse/", cntr.CreateCourse)                 //done
-	r.POST("/user/UpdateUserDetail/", cntr.UpdateUserDetail)           //done
-	r.GET("/user/GetUserFullInfo/:EmailAddress", cntr.GetUserFullInfo) //done
-	r.POST("/question/CreateNewQuestion/", cntr.CreateNewQuestion)
+	r.POST("/user/CreateUser/", cntr.CreateUser)                                                  //done
+	r.POST("/course/CreateCourse/", cntr.CreateCourse)                                            //done
+	r.POST("/user/UpdateUserDetail/", cntr.UpdateUserDetail)                                      //done
+	r.GET("/user/GetUserFullInfo/:EmailAddress", cntr.GetUserFullInfo)                            //done
+	r.POST("/question/CreateNewQuestion/", cntr.CreateNewQuestion)                                //done
+	r.GET("/question/FetchQuestionsByCourse/:StudentID/:CourseName", cntr.FetchQuestionsByCourse) //done
 	r.Run(AppCode.GoDotEnvVariable("AppPort"))
 }
 func auth() gin.HandlerFunc {

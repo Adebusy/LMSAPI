@@ -8,6 +8,7 @@ import (
 	"github.com/Adebusy/dataScienceAPI/model"
 	ut "github.com/Adebusy/dataScienceAPI/utilities"
 	"github.com/gin-gonic/gin"
+	_ "github.com/go-sql-driver/mysql"
 	"github.com/swaggo/swag/example/celler/httputil"
 )
 
@@ -76,7 +77,6 @@ func UpdateUserDetail(c *gin.Context) {
 		httputil.NewError(c, http.StatusBadRequest, err)
 		return
 	}
-
 	validateRequestResp := ut.ValidateStudentReq(stRequest)
 	if validateRequestResp.ResponseCode != "" {
 		c.JSON(http.StatusBadRequest, validateRequestResp)

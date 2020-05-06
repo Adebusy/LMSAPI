@@ -9,6 +9,7 @@ import (
 	crd "github.com/Adebusy/dataScienceAPI/crudal"
 	"github.com/Adebusy/dataScienceAPI/model"
 	"github.com/gin-gonic/gin"
+	_ "github.com/go-sql-driver/mysql"
 )
 
 // CreateCourse godoc

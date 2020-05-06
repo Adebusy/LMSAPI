@@ -11,6 +11,7 @@ import (
 	"github.com/Adebusy/dataScienceAPI/model"
 	ut "github.com/Adebusy/dataScienceAPI/utilities"
 	"github.com/gin-gonic/gin"
+	_ "github.com/go-sql-driver/mysql"
 	"github.com/swaggo/swag/example/celler/httputil"
 )
 
@@ -36,11 +37,12 @@ func CreateNewQuestion(ctx *gin.Context) {
 		return
 	}
 	//check course name
-	// if CourseNameValidation := cr.CheckIfCourseExistBool(strings.ToUpper(questionOBJ.CourseName)); CourseNameValidation == false {
-	// 	resp.ResponseCode = "01"
-	// 	resp.ResponseDescription = "Course name supplied does not exist."
-	// 	ctx.JSON(http.StatusBadRequest, resp)
-	// }
+	if CourseNameValidation := cr.CheckIfCourseExistBool(strings.ToUpper(questionOBJ.CourseName)); CourseNameValidation == false {
+		resp.ResponseCode = "01"
+		resp.ResponseDescription = "Course name supplied does not exist."
+		ctx.JSON(http.StatusBadRequest, resp)
+		return
+	}
 	// create question for the course
 	if cr.CreateQuestion(questionOBJ) {
 		resp.ResponseCode = "00"
@@ -63,18 +65,21 @@ func FetchQuestionsByCourse(ctx *gin.Context) {
 		resp.ResponseCode = "01"
 		resp.ResponseDescription = "CourseName is required"
 		ctx.JSON(http.StatusBadRequest, resp)
+		return
 	}
 
 	if courserName := ctx.Param("StudentID"); courserName == "" {
 		resp.ResponseCode = "01"
 		resp.ResponseDescription = "StudentID is required"
 		ctx.JSON(http.StatusBadRequest, resp)
+		return
 	}
 	//validate email address supplied
 	if checkEmail := ut.ValidateEmail(ctx.Param("StudentID")); checkEmail == false {
 		resp.ResponseCode = "01"
 		resp.ResponseDescription = "Student Email address must be valid."
 		ctx.JSON(http.StatusBadRequest, resp)
+		return
 	}
 	//use email fetch student details
 	doStudentCheck, err := cr.GetStudentByEmailAddress(strings.ToUpper(ctx.Param("StudentID")))
@@ -90,10 +95,11 @@ func FetchQuestionsByCourse(ctx *gin.Context) {
 		resp.ResponseCode = "02"
 		resp.ResponseDescription = "Course does not exist."
 		ctx.JSON(http.StatusBadRequest, resp)
+		return
 	}
 	//fetchQuestion use course name and maxinum exam question per quis for this course
 	CountValue, _ := strconv.Atoi(doCheck.QuestionCount)
-	myquestion := cr.GetQuestion(strings.ToUpper(ctx.Param("CourseName")), CountValue)
+	myquestion := cr.GetQuestion(doCheck.CourseName, CountValue)
 	var res model.QuisRequest
 	res.MyQuestion = myquestion
 	res.CourseDetails = doCheck
