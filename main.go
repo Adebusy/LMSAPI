@@ -52,12 +52,12 @@ func main() {
 
 	r := gin.Default()
 	r.GET("/swagger/*any", ginSwagger.WrapHandler(swaggerFiles.Handler))
-	r.POST("/user/CreateUser/", cntr.CreateUser)                                                  //done
-	r.POST("/course/CreateCourse/", cntr.CreateCourse)                                            //done
-	r.POST("/user/UpdateUserDetail/", cntr.UpdateUserDetail)                                      //done
-	r.GET("/user/GetUserFullInfo/:EmailAddress", cntr.GetUserFullInfo)                            //done
-	r.POST("/question/CreateNewQuestion/", cntr.CreateNewQuestion)                                //done
-	r.GET("/question/FetchQuestionsByCourse/:StudentID/:CourseName", cntr.FetchQuestionsByCourse) //done
+	r.POST("/user/CreateUser/", cntr.CreateUser)
+	r.POST("/course/CreateCourse/", cntr.CreateCourse)
+	r.POST("/user/UpdateUserDetail/", cntr.UpdateUserDetail)
+	r.GET("/user/GetUserFullInfo/:EmailAddress", cntr.GetUserFullInfo)
+	r.POST("/question/CreateNewQuestion/", cntr.CreateNewQuestion)
+	r.GET("/question/FetchQuestionsByCourse/:StudentID/:CourseName", cntr.FetchQuestionsByCourse)
 	r.Run(AppCode.GoDotEnvVariable("AppPort"))
 }
 func auth() gin.HandlerFunc {

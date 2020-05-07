@@ -1,7 +1,7 @@
 FROM golang:1.13
 
 # Set the Current Working Directory inside the container
-WORKDIR /LMSAPI 
+WORKDIR /LMSService 
 #C:\Users\Apanisileik\go\src\edupay-and-edclub
 #WORKDIR $GOPATH/src/github.com/codefresh-contrib/go-sample-app
 
@@ -18,4 +18,4 @@ RUN go install -v ./...
 EXPOSE 8080
 
 # Run the executable
-CMD ["LMSAPI"] 
+CMD ["LMSService"] 
