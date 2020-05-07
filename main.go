@@ -7,10 +7,10 @@ import (
 	"log"
 	"net/http"
 
-	"github.com/Adebusy/VisitorsManager/AppCode"
 	cntr "github.com/Adebusy/dataScienceAPI/controller"
 	cr "github.com/Adebusy/dataScienceAPI/crudal"
 	"github.com/Adebusy/dataScienceAPI/docs"
+	ut "github.com/Adebusy/dataScienceAPI/utilities"
 	_ "github.com/denisenkom/go-mssqldb"
 	"github.com/gin-gonic/gin"
 	_ "github.com/go-sql-driver/mysql"
@@ -51,6 +51,7 @@ func main() {
 	docs.SwaggerInfo.Schemes = []string{"http", "https"}
 
 	r := gin.Default()
+
 	r.GET("/swagger/*any", ginSwagger.WrapHandler(swaggerFiles.Handler))
 	r.POST("/user/CreateUser/", cntr.CreateUser)
 	r.POST("/course/CreateCourse/", cntr.CreateCourse)
@@ -58,7 +59,7 @@ func main() {
 	r.GET("/user/GetUserFullInfo/:EmailAddress", cntr.GetUserFullInfo)
 	r.POST("/question/CreateNewQuestion/", cntr.CreateNewQuestion)
 	r.GET("/question/FetchQuestionsByCourse/:StudentID/:CourseName", cntr.FetchQuestionsByCourse)
-	r.Run(AppCode.GoDotEnvVariable("AppPort"))
+	r.Run(ut.GoDotEnvVariable("AppPort"))
 }
 func auth() gin.HandlerFunc {
 	return func(c *gin.Context) {

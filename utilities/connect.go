@@ -6,7 +6,6 @@ import (
 	"fmt"
 	"log"
 
-	"github.com/Adebusy/VisitorsManager/AppCode"
 	"github.com/joho/godotenv"
 )
 
@@ -17,7 +16,7 @@ var err error
 func ConnectMe() {
 	godotenv.Load()
 	connString := fmt.Sprintf("server=%s;user id=%s;password=%s;port=%s;database=%s;",
-		AppCode.GoDotEnvVariable("Server"), AppCode.GoDotEnvVariable("user"), AppCode.GoDotEnvVariable("Password"), AppCode.GoDotEnvVariable("Port"), AppCode.GoDotEnvVariable("Database"))
+		GoDotEnvVariable("Server"), GoDotEnvVariable("user"), GoDotEnvVariable("Password"), GoDotEnvVariable("Port"), GoDotEnvVariable("Database"))
 	db, err = sql.Open("sqlserver", connString)
 	if err != nil {
 		log.Fatal("Error creating connection pool: ", err.Error())

@@ -5,7 +5,7 @@ import (
 	"database/sql"
 	"fmt"
 
-	"github.com/Adebusy/VisitorsManager/AppCode"
+	"github.com/Adebusy/dataScienceAPI/utilities"
 	_ "github.com/denisenkom/go-mssqldb"
 	"github.com/joho/godotenv"
 )
@@ -17,7 +17,7 @@ var err error
 func ConnectMe() (db *sql.DB, err error) {
 	godotenv.Load()
 	connString := fmt.Sprintf("server=%s;user id=%s;password=%s;port=%s;database=%s;",
-		AppCode.GoDotEnvVariable("Server"), AppCode.GoDotEnvVariable("user"), AppCode.GoDotEnvVariable("Password"), AppCode.GoDotEnvVariable("Port"), AppCode.GoDotEnvVariable("Database"))
+		utilities.GoDotEnvVariable("Server"), utilities.GoDotEnvVariable("user"), utilities.GoDotEnvVariable("Password"), utilities.GoDotEnvVariable("Port"), utilities.GoDotEnvVariable("Database"))
 	db, err = sql.Open("sqlserver", connString)
 	ctx := context.Background()
 	err = db.PingContext(ctx)
