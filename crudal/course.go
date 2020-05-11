@@ -10,6 +10,12 @@ import (
 
 //234012803823  08080523171
 
+type course interface {
+	CheckIfCourseExist(string) model.Courses
+	CheckIfCourseExistBool(string) bool
+	CreateNewCourse(model.Course, string) bool
+}
+
 //CheckIfCourseExist validates course name
 func CheckIfCourseExist(courseNam string) model.Courses {
 	var courseobject model.Courses

@@ -19,6 +19,7 @@ import (
 	"github.com/swaggo/swag/example/celler/httputil"
 )
 
+//git remote add origin https://github.com/Adebusy/dataScienceAPI.git
 var db *sql.DB
 var err error
 
