@@ -59,6 +59,8 @@ definitions:
     properties:
       CorrectOption:
         type: string
+      CourseCode:
+        type: string
       CourseName:
         type: string
       DateCreated:
@@ -68,6 +70,7 @@ definitions:
       IsAvailable:
         type: boolean
       OptionA:
+        description: CourseCategory string `json:"CourseCategory" validate:"omitempty"`
         type: string
       OptionB:
         type: string
@@ -97,6 +100,15 @@ definitions:
       studentDetails:
         $ref: '#/definitions/model.Students'
         type: object
+    type: object
+  model.RequestResponse:
+    properties:
+      ID:
+        type: integer
+      ResponseCode:
+        type: string
+      ResponseMessage:
+        type: string
     type: object
   model.Student:
     properties:
@@ -141,6 +153,19 @@ definitions:
         type: string
       int:
         type: integer
+    type: object
+  model.TestResult:
+    properties:
+      DateTaken:
+        type: string
+      ID:
+        type: integer
+      StudentID:
+        type: string
+      TestID:
+        type: string
+      testResult:
+        type: string
     type: object
   utilities.ResponseManager:
     properties:
@@ -212,6 +237,23 @@ paths:
           schema:
             $ref: '#/definitions/model.QuisRequest'
       summary: Fetch question for quis
+  /question/TestResult/:
+    post:
+      parameters:
+      - description: Keeps histories of test taken by registered students
+        in: body
+        name: user
+        required: true
+        schema:
+          $ref: '#/definitions/model.TestResult'
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/model.RequestResponse'
+      summary: Keeps histories of test taken by registered student
   /user/CreateUser:
     post:
       parameters:

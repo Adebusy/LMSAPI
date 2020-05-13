@@ -106,3 +106,42 @@ func FetchQuestionsByCourse(ctx *gin.Context) {
 	res.StudentDetails = doStudentCheck
 	ctx.JSON(http.StatusOK, res)
 }
+
+// TestResult godoc
+// @Summary Keeps histories of test taken by registered student
+// @Produce json
+// @Param user body model.TestResult true "Keeps histories of test taken by registered students"
+// @Success 200 {object} model.RequestResponse
+// @Router /question/TestResult/ [post]
+func TestResult(ctx *gin.Context) {
+	var resqBody model.TestResult
+	var respBody model.RequestResponse
+	err := ctx.ShouldBindJSON(&resqBody)
+	if err != nil {
+		log.Panic(err.Error)
+	}
+	//valdate student id
+	_, erro := cr.GetStudentByEmailAddress(resqBody.StudentID)
+	if erro != nil {
+		log.Panic(erro.Error)
+		respBody.ResponseCode = "01"
+		respBody.ResponseMessage = "Unable to validate student email address at the moment. Please try again later!!"
+	} else {
+		//confirm that course exist
+		if checkCourse := cr.CheckIfCourseExistBool(resqBody.TestID); checkCourse == false {
+			respBody.ResponseCode = "01"
+			respBody.ResponseMessage = "Test name does not exist. Please re-confirm and try again!!"
+			return ctx.JSON(http.StatusOK, respBody)
+		}
+		//do insert into tbl_test table
+		doinsert := cr.InsertTestResult(resqBody)
+		if doinsert <= 0 {
+			respBody.ResponseCode = "02"
+			respBody.ResponseMessage = "Unable to save result at the moment, please try again later."
+		} else {
+			respBody.ResponseCode = "00"
+			respBody.ResponseMessage = "Result submitted successfully."
+		}
+	}
+	return ctx.JSON(http.StatusOK, respBody)
+}

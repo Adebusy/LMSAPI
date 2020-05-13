@@ -113,6 +113,33 @@ var doc = `{
                 }
             }
         },
+        "/question/TestResult/": {
+            "post": {
+                "produces": [
+                    "application/json"
+                ],
+                "summary": "Keeps histories of test taken by registered student",
+                "parameters": [
+                    {
+                        "description": "Keeps histories of test taken by registered students",
+                        "name": "user",
+                        "in": "body",
+                        "required": true,
+                        "schema": {
+                            "$ref": "#/definitions/model.TestResult"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "schema": {
+                            "$ref": "#/definitions/model.RequestResponse"
+                        }
+                    }
+                }
+            }
+        },
         "/user/CreateUser": {
             "post": {
                 "produces": [
@@ -284,6 +311,9 @@ var doc = `{
                 "CorrectOption": {
                     "type": "string"
                 },
+                "CourseCode": {
+                    "type": "string"
+                },
                 "CourseName": {
                     "type": "string"
                 },
@@ -297,6 +327,7 @@ var doc = `{
                     "type": "boolean"
                 },
                 "OptionA": {
+                    "description": "CourseCategory string ` + "`" + `json:\"CourseCategory\" validate:\"omitempty\"` + "`" + `",
                     "type": "string"
                 },
                 "OptionB": {
@@ -339,6 +370,20 @@ var doc = `{
                 "studentDetails": {
                     "type": "object",
                     "$ref": "#/definitions/model.Students"
+                }
+            }
+        },
+        "model.RequestResponse": {
+            "type": "object",
+            "properties": {
+                "ID": {
+                    "type": "integer"
+                },
+                "ResponseCode": {
+                    "type": "string"
+                },
+                "ResponseMessage": {
+                    "type": "string"
                 }
             }
         },
@@ -406,6 +451,26 @@ var doc = `{
                 },
                 "int": {
                     "type": "integer"
+                }
+            }
+        },
+        "model.TestResult": {
+            "type": "object",
+            "properties": {
+                "DateTaken": {
+                    "type": "string"
+                },
+                "ID": {
+                    "type": "integer"
+                },
+                "StudentID": {
+                    "type": "string"
+                },
+                "TestID": {
+                    "type": "string"
+                },
+                "testResult": {
+                    "type": "string"
                 }
             }
         },

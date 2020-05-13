@@ -5,12 +5,37 @@ import (
 	"log"
 	"math/rand"
 	"strings"
+	"time"
 
+	cr "github.com/Adebusy/VisitorsManager/crudal"
 	"github.com/Adebusy/dataScienceAPI/model"
 )
 
 var recsliceRaw = []*model.Questions{}
 var randonNumbers int = 0
+
+func init() {
+	db, err = cr.ConnectMe()
+	if err != nil {
+		log.Fatal(err.Error())
+	} else {
+		fmt.Println("no connection error")
+	}
+	dbGorm, errGorm := cr.ConnectGorm() //gorm.Open("mssql", "sqlserver://dbuser:Sterling123@sterlingazuredb.database.windows.net?database=newedupaydb")
+	if errGorm != nil {
+		fmt.Printf(errGorm.Error())
+	} else {
+		//fmt.Println("mo connect ")
+		//dbGorm.Debug().DropTableIfExists(&model.TblTestNewResult{})
+		//dbGorm.SingularTable(true)
+		//dbGorm.Debug().AutoMigrate(&model.TblTestNewResult{})
+	}
+	insertTest := model.TblTestNewResult{DateTaken: time.Now().Local(), StudentID: "alaoh.adebusy@gmail.com", TestID: "1203", TestResult: "6004"}
+	dbGorm.Create(&insertTest)
+	//dbGorm.Last(&insertTest)
+	//fmt.Println(insertTest.ID)
+
+}
 
 //CreateQuestion used to create new question
 func CreateQuestion(questionObj model.Question) bool {
@@ -92,4 +117,12 @@ func checkAlreadyAdd(recsliceRaw []*model.Questions, randomMax int) bool {
 		}
 	}
 	return retCheck
+}
+
+//InsertTestResult insert result
+func InsertTestResult(ts model.TestResult) int {
+	obj := model.TblTestNewResult{StudentID: ts.StudentID, TestID: ts.TestID, TestResult: ts.TestResult, DateTaken: time.Now()}
+	dbGorm.Create(&obj)
+	resp := dbGorm.Last(&obj.ID)
+	return resp
 }
