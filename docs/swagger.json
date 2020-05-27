@@ -29,7 +29,8 @@
                         "in": "body",
                         "required": true,
                         "schema": {
-                            "$ref": "#/definitions/model.Course"
+                            "type": "object",
+                            "$ref": "#/definitions/modules.Course"
                         }
                     }
                 ],
@@ -37,7 +38,7 @@
                     "200": {
                         "description": "OK",
                         "schema": {
-                            "$ref": "#/definitions/controller.Message"
+                            "$ref": "#/definitions/modules.Message"
                         }
                     }
                 }
@@ -56,7 +57,8 @@
                         "in": "body",
                         "required": true,
                         "schema": {
-                            "$ref": "#/definitions/model.Question"
+                            "type": "object",
+                            "$ref": "#/definitions/modules.Question"
                         }
                     }
                 ],
@@ -64,7 +66,7 @@
                     "200": {
                         "description": "OK",
                         "schema": {
-                            "$ref": "#/definitions/utilities.ResponseManager"
+                            "$ref": "#/definitions/question.RequestResponse"
                         }
                     }
                 }
@@ -78,20 +80,25 @@
                 "summary": "Fetch question for quis",
                 "parameters": [
                     {
-                        "description": "Fetch question for quis",
-                        "name": "user",
-                        "in": "body",
-                        "required": true,
-                        "schema": {
-                            "$ref": "#/definitions/model.Question"
-                        }
+                        "type": "string",
+                        "description": "pass email as StudentID and course name as coursename",
+                        "name": "StudentID",
+                        "in": "path",
+                        "required": true
+                    },
+                    {
+                        "type": "string",
+                        "description": "courseName as course name",
+                        "name": "CourseName",
+                        "in": "path",
+                        "required": true
                     }
                 ],
                 "responses": {
                     "200": {
                         "description": "OK",
                         "schema": {
-                            "$ref": "#/definitions/model.QuisRequest"
+                            "$ref": "#/definitions/question.QuisRequest"
                         }
                     }
                 }
@@ -110,7 +117,8 @@
                         "in": "body",
                         "required": true,
                         "schema": {
-                            "$ref": "#/definitions/model.TestResult"
+                            "type": "object",
+                            "$ref": "#/definitions/modules.TestResult"
                         }
                     }
                 ],
@@ -118,7 +126,7 @@
                     "200": {
                         "description": "OK",
                         "schema": {
-                            "$ref": "#/definitions/model.RequestResponse"
+                            "$ref": "#/definitions/modules.RequestResponse"
                         }
                     }
                 }
@@ -137,7 +145,8 @@
                         "in": "body",
                         "required": true,
                         "schema": {
-                            "$ref": "#/definitions/model.Student"
+                            "type": "object",
+                            "$ref": "#/definitions/modules.Student"
                         }
                     }
                 ],
@@ -145,7 +154,7 @@
                     "200": {
                         "description": "OK",
                         "schema": {
-                            "$ref": "#/definitions/utilities.ResponseManager"
+                            "$ref": "#/definitions/modules.ResponseManager"
                         }
                     }
                 }
@@ -170,7 +179,7 @@
                     "200": {
                         "description": "OK",
                         "schema": {
-                            "$ref": "#/definitions/model.Students"
+                            "$ref": "#/definitions/modules.Students"
                         }
                     }
                 }
@@ -189,7 +198,8 @@
                         "in": "body",
                         "required": true,
                         "schema": {
-                            "$ref": "#/definitions/model.Student"
+                            "type": "object",
+                            "$ref": "#/definitions/modules.Student"
                         }
                     }
                 ],
@@ -197,7 +207,7 @@
                     "200": {
                         "description": "OK",
                         "schema": {
-                            "$ref": "#/definitions/controller.Message"
+                            "$ref": "#/definitions/modules.Message"
                         }
                     }
                 }
@@ -205,33 +215,7 @@
         }
     },
     "definitions": {
-        "controller.Message": {
-            "type": "object",
-            "properties": {
-                "message": {
-                    "type": "string",
-                    "example": "message"
-                }
-            }
-        },
-        "model.Course": {
-            "type": "object",
-            "properties": {
-                "CourseCategory": {
-                    "type": "string"
-                },
-                "CourseName": {
-                    "type": "string"
-                },
-                "PassMark": {
-                    "type": "string"
-                },
-                "QuetionCount": {
-                    "type": "string"
-                }
-            }
-        },
-        "model.Courses": {
+        "modules.Course": {
             "type": "object",
             "properties": {
                 "CourseCategory": {
@@ -249,9 +233,6 @@
                 "DateCreated": {
                     "type": "string"
                 },
-                "ID": {
-                    "type": "integer"
-                },
                 "PassMark": {
                     "type": "string"
                 },
@@ -260,10 +241,22 @@
                 }
             }
         },
-        "model.Question": {
+        "modules.Message": {
+            "type": "object",
+            "properties": {
+                "message": {
+                    "type": "string",
+                    "example": "message"
+                }
+            }
+        },
+        "modules.Question": {
             "type": "object",
             "properties": {
                 "CorrectOption": {
+                    "type": "string"
+                },
+                "CourseCode": {
                     "type": "string"
                 },
                 "CourseName": {
@@ -289,7 +282,7 @@
                 }
             }
         },
-        "model.Questions": {
+        "modules.Questions": {
             "type": "object",
             "properties": {
                 "CorrectOption": {
@@ -338,31 +331,9 @@
                 }
             }
         },
-        "model.QuisRequest": {
+        "modules.RequestResponse": {
             "type": "object",
             "properties": {
-                "courseDetails": {
-                    "type": "object",
-                    "$ref": "#/definitions/model.Courses"
-                },
-                "myQuestion": {
-                    "type": "array",
-                    "items": {
-                        "$ref": "#/definitions/model.Questions"
-                    }
-                },
-                "studentDetails": {
-                    "type": "object",
-                    "$ref": "#/definitions/model.Students"
-                }
-            }
-        },
-        "model.RequestResponse": {
-            "type": "object",
-            "properties": {
-                "ID": {
-                    "type": "integer"
-                },
                 "ResponseCode": {
                     "type": "string"
                 },
@@ -371,7 +342,18 @@
                 }
             }
         },
-        "model.Student": {
+        "modules.ResponseManager": {
+            "type": "object",
+            "properties": {
+                "ResponseCode": {
+                    "type": "string"
+                },
+                "ResponseDescription": {
+                    "type": "string"
+                }
+            }
+        },
+        "modules.Student": {
             "type": "object",
             "properties": {
                 "Category": {
@@ -400,7 +382,7 @@
                 }
             }
         },
-        "model.Students": {
+        "modules.Students": {
             "type": "object",
             "properties": {
                 "Category": {
@@ -418,6 +400,9 @@
                 "Gender": {
                     "type": "string"
                 },
+                "ID": {
+                    "type": "integer"
+                },
                 "LastName": {
                     "type": "string"
                 },
@@ -432,39 +417,78 @@
                 },
                 "UserType": {
                     "type": "string"
-                },
-                "int": {
-                    "type": "integer"
                 }
             }
         },
-        "model.TestResult": {
+        "modules.TblCourse": {
             "type": "object",
             "properties": {
-                "DateTaken": {
+                "CourseCategory": {
+                    "type": "string"
+                },
+                "CourseCode": {
+                    "type": "string"
+                },
+                "CourseName": {
+                    "type": "string"
+                },
+                "CourseStatus": {
+                    "type": "string"
+                },
+                "DateCreated": {
                     "type": "string"
                 },
                 "ID": {
                     "type": "integer"
                 },
+                "PassMark": {
+                    "type": "string"
+                },
+                "QuestionCount": {
+                    "type": "string"
+                }
+            }
+        },
+        "modules.TestResult": {
+            "type": "object",
+            "properties": {
                 "StudentID": {
                     "type": "string"
                 },
                 "TestID": {
                     "type": "string"
                 },
-                "testResult": {
+                "TestResult": {
                     "type": "string"
                 }
             }
         },
-        "utilities.ResponseManager": {
+        "question.QuisRequest": {
+            "type": "object",
+            "properties": {
+                "courseDetails": {
+                    "type": "object",
+                    "$ref": "#/definitions/modules.TblCourse"
+                },
+                "myQuestion": {
+                    "type": "array",
+                    "items": {
+                        "$ref": "#/definitions/modules.Questions"
+                    }
+                },
+                "studentDetails": {
+                    "type": "object",
+                    "$ref": "#/definitions/modules.Students"
+                }
+            }
+        },
+        "question.RequestResponse": {
             "type": "object",
             "properties": {
                 "ResponseCode": {
                     "type": "string"
                 },
-                "ResponseDescription": {
+                "ResponseMessage": {
                     "type": "string"
                 }
             }
