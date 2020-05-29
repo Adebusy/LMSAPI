@@ -1,23 +1,6 @@
 basePath: /api/v1
 definitions:
-  controller.Message:
-    properties:
-      message:
-        example: message
-        type: string
-    type: object
-  model.Course:
-    properties:
-      CourseCategory:
-        type: string
-      CourseName:
-        type: string
-      PassMark:
-        type: string
-      QuetionCount:
-        type: string
-    type: object
-  model.Courses:
+  modules.Course:
     properties:
       CourseCategory:
         type: string
@@ -29,16 +12,22 @@ definitions:
         type: string
       DateCreated:
         type: string
-      ID:
-        type: integer
       PassMark:
         type: string
       QuestionCount:
         type: string
     type: object
-  model.Question:
+  modules.Message:
+    properties:
+      message:
+        example: message
+        type: string
+    type: object
+  modules.Question:
     properties:
       CorrectOption:
+        type: string
+      CourseCode:
         type: string
       CourseName:
         type: string
@@ -55,7 +44,7 @@ definitions:
       Reason:
         type: string
     type: object
-  model.Questions:
+  modules.Questions:
     properties:
       CorrectOption:
         type: string
@@ -88,29 +77,21 @@ definitions:
         description: Active , non-Active
         type: string
     type: object
-  model.QuisRequest:
+  modules.RequestResponse:
     properties:
-      courseDetails:
-        $ref: '#/definitions/model.Courses'
-        type: object
-      myQuestion:
-        items:
-          $ref: '#/definitions/model.Questions'
-        type: array
-      studentDetails:
-        $ref: '#/definitions/model.Students'
-        type: object
-    type: object
-  model.RequestResponse:
-    properties:
-      ID:
-        type: integer
       ResponseCode:
         type: string
       ResponseMessage:
         type: string
     type: object
-  model.Student:
+  modules.ResponseManager:
+    properties:
+      ResponseCode:
+        type: string
+      ResponseDescription:
+        type: string
+    type: object
+  modules.Student:
     properties:
       Category:
         type: string
@@ -129,7 +110,7 @@ definitions:
       UserType:
         type: string
     type: object
-  model.Students:
+  modules.Students:
     properties:
       Category:
         type: string
@@ -141,6 +122,8 @@ definitions:
         type: string
       Gender:
         type: string
+      ID:
+        type: integer
       LastName:
         type: string
       MiddleName:
@@ -151,27 +134,53 @@ definitions:
         type: string
       UserType:
         type: string
-      int:
-        type: integer
     type: object
-  model.TestResult:
+  modules.TblCourse:
     properties:
-      DateTaken:
+      CourseCategory:
+        type: string
+      CourseCode:
+        type: string
+      CourseName:
+        type: string
+      CourseStatus:
+        type: string
+      DateCreated:
         type: string
       ID:
         type: integer
+      PassMark:
+        type: string
+      QuestionCount:
+        type: string
+    type: object
+  modules.TestResult:
+    properties:
       StudentID:
         type: string
       TestID:
         type: string
-      testResult:
+      TestResult:
         type: string
     type: object
-  utilities.ResponseManager:
+  question.QuisRequest:
+    properties:
+      courseDetails:
+        $ref: '#/definitions/modules.TblCourse'
+        type: object
+      myQuestion:
+        items:
+          $ref: '#/definitions/modules.Questions'
+        type: array
+      studentDetails:
+        $ref: '#/definitions/modules.Students'
+        type: object
+    type: object
+  question.RequestResponse:
     properties:
       ResponseCode:
         type: string
-      ResponseDescription:
+      ResponseMessage:
         type: string
     type: object
 info:
@@ -194,14 +203,15 @@ paths:
         name: user
         required: true
         schema:
-          $ref: '#/definitions/model.Course'
+          $ref: '#/definitions/modules.Course'
+          type: object
       produces:
       - application/json
       responses:
         "200":
           description: OK
           schema:
-            $ref: '#/definitions/controller.Message'
+            $ref: '#/definitions/modules.Message'
       summary: create new course
   /question/CreateNewQuestion/:
     post:
@@ -211,31 +221,36 @@ paths:
         name: user
         required: true
         schema:
-          $ref: '#/definitions/model.Question'
+          $ref: '#/definitions/modules.Question'
+          type: object
       produces:
       - application/json
       responses:
         "200":
           description: OK
           schema:
-            $ref: '#/definitions/utilities.ResponseManager'
+            $ref: '#/definitions/question.RequestResponse'
       summary: create new question
   /question/FetchQuestionsByCourse/{StudentID}/{CourseName}:
     get:
       parameters:
-      - description: Fetch question for quis
-        in: body
-        name: user
+      - description: pass email as StudentID and course name as coursename
+        in: path
+        name: StudentID
         required: true
-        schema:
-          $ref: '#/definitions/model.Question'
+        type: string
+      - description: courseName as course name
+        in: path
+        name: CourseName
+        required: true
+        type: string
       produces:
       - application/json
       responses:
         "200":
           description: OK
           schema:
-            $ref: '#/definitions/model.QuisRequest'
+            $ref: '#/definitions/question.QuisRequest'
       summary: Fetch question for quis
   /question/TestResult/:
     post:
@@ -245,14 +260,15 @@ paths:
         name: user
         required: true
         schema:
-          $ref: '#/definitions/model.TestResult'
+          $ref: '#/definitions/modules.TestResult'
+          type: object
       produces:
       - application/json
       responses:
         "200":
           description: OK
           schema:
-            $ref: '#/definitions/model.RequestResponse'
+            $ref: '#/definitions/modules.RequestResponse'
       summary: Keeps histories of test taken by registered student
   /user/CreateUser:
     post:
@@ -262,14 +278,15 @@ paths:
         name: user
         required: true
         schema:
-          $ref: '#/definitions/model.Student'
+          $ref: '#/definitions/modules.Student'
+          type: object
       produces:
       - application/json
       responses:
         "200":
           description: OK
           schema:
-            $ref: '#/definitions/utilities.ResponseManager'
+            $ref: '#/definitions/modules.ResponseManager'
       summary: creates new user
   /user/GetUserFullInfo/{EmailAddress}:
     get:
@@ -285,7 +302,7 @@ paths:
         "200":
           description: OK
           schema:
-            $ref: '#/definitions/model.Students'
+            $ref: '#/definitions/modules.Students'
       summary: get user full information
   /user/UpdateUserDetail:
     post:
@@ -295,13 +312,14 @@ paths:
         name: user
         required: true
         schema:
-          $ref: '#/definitions/model.Student'
+          $ref: '#/definitions/modules.Student'
+          type: object
       produces:
       - application/json
       responses:
         "200":
           description: OK
           schema:
-            $ref: '#/definitions/controller.Message'
+            $ref: '#/definitions/modules.Message'
       summary: update user details
 swagger: "2.0"
