@@ -87,6 +87,11 @@ func (ts studentService) Create(ctx context.Context, RequesuetOBJ md.TblStudent)
 //Update method to create new user
 func (ts studentService) Update(ctx context.Context, RequesuetOBJ md.TblStudent) md.ResponseManager {
 	var resp md.ResponseManager
+<<<<<<< HEAD
+=======
+
+	
+>>>>>>> 91a7e71eec5d4af8a1f7b90cf10f62a939fc0060
 	query := fmt.Sprintf(`update tbl_Student  set first_name='%s', middle_name='%s', last_name='%s', gender='%s', nationality='%s', category='%s', user_type='%s' where email='%s'`, RequesuetOBJ.FirstName, RequesuetOBJ.MiddleName, RequesuetOBJ.LastName, RequesuetOBJ.Gender, RequesuetOBJ.Nationality, RequesuetOBJ.Category, RequesuetOBJ.UserType, RequesuetOBJ.Email)
 	doRequest, _ := db.Prepare(query)
 	_, errs := doRequest.Exec()

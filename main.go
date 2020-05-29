@@ -41,7 +41,11 @@ func init() {
 	if errGorm != nil {
 		fmt.Printf(errGorm.Error())
 	} else {
+<<<<<<< HEAD
 		// 	//fmt.Println("mo connect ")
+=======
+		//fmt.Println("mo connect ")
+>>>>>>> 91a7e71eec5d4af8a1f7b90cf10f62a939fc0060
 		//dbGorm.Debug().DropTableIfExists(&modules.TblCourse{})
 		// dbGorm.Debug().DropTableIfExists(&modules.TblStudent{})
 		// dbGorm.Debug().DropTableIfExists(&modules.TblQuestion{})
@@ -86,6 +90,10 @@ func main() {
 	r.POST("/question/CreateNewQuestion/", question.CreateNewQuestion)
 	r.POST("/question/TestResult/", question.TestResult)
 	r.GET("/question/FetchQuestionsByCourse/:StudentID/:CourseName", question.FetchQuestionsByCourse)
+<<<<<<< HEAD
+=======
+
+>>>>>>> 91a7e71eec5d4af8a1f7b90cf10f62a939fc0060
 	r.Run(sqlserver.GoDotEnvVariable("AppPort"))
 }
 func auth() gin.HandlerFunc {

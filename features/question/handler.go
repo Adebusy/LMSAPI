@@ -8,11 +8,18 @@ import (
 	"strings"
 
 	"github.com/jinzhu/gorm"
+<<<<<<< HEAD
 	"github.com/swaggo/swag/example/celler/httputil"
+=======
+>>>>>>> 91a7e71eec5d4af8a1f7b90cf10f62a939fc0060
 
 	"github.com/Adebusy/dataScienceAPI/driver/sqlserver"
 	"github.com/Adebusy/dataScienceAPI/modules"
 
+<<<<<<< HEAD
+=======
+	"github.com/Adebusy/VisitorsManager/httputil"
+>>>>>>> 91a7e71eec5d4af8a1f7b90cf10f62a939fc0060
 	csr "github.com/Adebusy/dataScienceAPI/datastore/sqlserver/course"
 	"github.com/Adebusy/dataScienceAPI/datastore/sqlserver/question"
 	"github.com/Adebusy/dataScienceAPI/datastore/sqlserver/student"
@@ -48,6 +55,10 @@ func init() {
 	} else {
 
 	}
+<<<<<<< HEAD
+=======
+
+>>>>>>> 91a7e71eec5d4af8a1f7b90cf10f62a939fc0060
 }
 
 // CreateNewQuestion godoc
